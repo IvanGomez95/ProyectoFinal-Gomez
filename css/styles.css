@@ -1,0 +1,99 @@
+img{
+  height: 100%;
+
+}
+
+td{
+  height: 100px;
+}
+
+h2{
+ text-align: center;
+ color:gray;
+}
+
+.precio{
+ display:block;
+ font-size:20px;
+}
+
+#carrito{
+  width: 40%; 
+  background-color: #2ba591; 
+  height: fit-content;
+  margin-top: 25px;
+}
+
+#listaProductos{
+
+width: 70%;
+}
+
+#contenedorPadre{
+
+display:flex;
+}
+
+
+.div{
+    margin: 10px;
+}
+
+.btn-primary:hover{
+    transition: 0.5s;
+    background-color: #006400;
+}
+
+.bg-blue {
+    background-color: #2ba591;
+}
+
+nav img{
+    width: 60px;
+}
+
+.titulos{
+    text-decoration: underline;
+    color: black
+}
+
+main{
+    margin-top: 100px;
+}
+
+
+.carrito_vacio {
+    list-style-type: none;
+    text-decoration: none;
+    color: red;
+    font-size: 20px;
+}
+
+.carrito_vacio:hover{
+    transition: 0.9s;
+    color: black
+}
+
+.btn{
+    margin-top: 8px;
+    justify-self: center;
+}
+
+.centered{
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    text-align: center;
+}
+
+.totalEstilo{
+    font-weight: bold;
+    font-size: 20px;
+    margin: 2px;
+
+}
+
+.animate__slideInUp{
+    animation-duration: 1.5s;
+    animation-delay: 0.2s;
+}
