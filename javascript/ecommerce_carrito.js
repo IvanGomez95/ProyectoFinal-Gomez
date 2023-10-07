@@ -1,4 +1,4 @@
-let carrito = [];
+let carrito = []
 
 
 function agregarCarrito(e){
@@ -13,15 +13,20 @@ function agregarCarrito(e){
 
     let imgProducto = abuelo.querySelector("img").src;
 
+    let productoExistente = carrito.find (item => item.nombre === nombreProducto);
 
-    let producto = {
-        nombre: nombreProducto,
-        precio: precioProducto,
-        img:imgProducto,
-        cantidad:1
-    };
+    if (productoExistente){
+        productoExistente.cantidad += 1;
+    } else{
+        let producto = {
+            nombre: nombreProducto,
+            precio: precioProducto,
+            img:imgProducto,
+            cantidad:1
+        };
+        carrito.push(producto);
+    }
 
-    carrito.push(producto);
     
 
     let carritoJSON = JSON.stringify (carrito);
@@ -40,6 +45,7 @@ function agregarCarrito(e){
 }
 
 function mostrarCarrito(){
+
 
     let tabla = document.getElementById("tbody");
 
@@ -62,14 +68,36 @@ function mostrarCarrito(){
     for( let btn of btnBorrar){
         btn.addEventListener("click" , borrarProducto );
     }
+    let total = calcularTotal();
+    let totalElement = document.getElementById ("resultado");
+    totalElement.textContent = `Total: $${total}`;
 
+}
+
+function calcularTotal(){
+    let total = 0;
+    for (let producto of carrito){
+        total += parseInt(producto.precio) * producto.cantidad;
+    }
+    return total;
 }
 
 function borrarProducto(e){
 
     let abuelo = e.target.parentNode.parentNode;
     let productoEliminar = abuelo.querySelector("p").innerText;  
-    abuelo.remove();
+    for (let i = 0; i < carrito.length; i++){
+        if (carrito[i].nombre === productoEliminar){
+            if (carrito[i].cantidad > 1){
+                carrito[i].cantidad -= 1;
+                abuelo.querySelector ("td:nth-child(3)").textContent = carrito[i].cantidad;
+            } else{
+                carrito.splice (i,1);
+                abuelo.remove();
+            }
+            break
+        }
+    }
     Toastify({
         text: `Producto eliminado del carrito: ${productoEliminar}`,
         className: "info",
@@ -79,73 +107,56 @@ function borrarProducto(e){
         }
     }).showToast();
 
+    let total = calcularTotal();
+    let totalElement = document.getElementById ("resultado");
+    totalElement.textContent = `Total: $${total}`;
 
-
-    function eliminarProductoLS( producto ){
-        return producto.nombre != productoEliminar
-    }
-
-
-    let resultadoFilter = carrito.filter( eliminarProducto );
-    carrito = resultadoFilter;
-
-    function eliminarProducto (producto){
-        return producto.nombre != productoEliminar
-    }
-
-    let carritoParseado = JSON.parse(localStorage.getItem ("Carrito"));
-    let resultadoFilterLS = carritoParseado.filter (eliminarProductoLS);
-    let nuevoCarritoLS = JSON.stringify (resultadoFilterLS);
-    localStorage.setItem ("Carrito", nuevoCarritoLS);
+    localStorage.setItem ("Carrito", JSON.stringify(carrito));
 }
 
 
 function vaciarCarrito (){
-    let vaciar_carro = document.getElementById ("carrito")
-    vaciar_carro.innerHTML = `<p>Carrito Eliminado!</p>
+    if (localStorage.length >= 1){
+        let vaciar_carro = document.getElementById ("carrito")
+        vaciar_carro.innerHTML = `<p>Carrito Eliminado!</p>
                               <a href = "index.html" class = "carrito_vacio">Volver a cargar productos</a>`;
-    localStorage.clear ();
+        localStorage.clear ();
+    } else{
+        Swal.fire({
+            icon: 'error',
+            title: 'No hay productos en el carrito',
+            showConfirmButton: true
+        })
+
+    }
 }
 
 
 
 function finalizarCompra (){
-    function totalCompra (acu, producto){
-        acu = acu + parseInt(producto.precio);
-        return acu;
-    }
+    let total = calcularTotal ();
+    carrito.splice (0, carrito.length);
+    
+    mostrarCarrito();
     
     
-    
-    let compraFinal = carrito.reduce (totalCompra, 0);
        
-    if (compraFinal > 0){
-        let tabla = document.getElementById("resultado");
-
-    tabla.innerHTML = "";
-
-
-    let fila = document.createElement("tr");
-    fila.innerHTML = `<td><p class="row totalEstilo">Total</p></td>
-                      <td><p class="totalEstilo">$${compraFinal}</p></td>`;
-    tabla.append(fila);
-
-
-    Swal.fire({
-        icon: 'success',
-        title: 'Compra realizada con éxito!',
-        showConfirmButton: true,
-    })
-    }
-  
-    else{
+    if (total > 0){
         Swal.fire({
+        icon: 'success',
+        title: `Compra realizada con éxito! El total es $${total}`,
+        showConfirmButton: true,
+        })
+
+        let totalElement = document.getElementById ("resultado");
+        totalElement.style.display = "none";
+    } else{
+            Swal.fire({
             icon: 'error',
             title: 'No ha añadido ningún producto',
             showConfirmButton: true
         })
     }
-
 }
 
 
@@ -165,3 +176,8 @@ vaciar_carrito.addEventListener ("click", vaciarCarrito)
 let finalizar_compra = document.getElementById ("finalizar-compra");
 
 finalizar_compra.addEventListener ("click", finalizarCompra);
+
+fetch ("https://api.openweathermap.org/data/2.5/weather?q=Buenos Aires&units=metric&appid=882245ce1b449bb04e49a4c38a3cbfb9")
+    .then ((response) => response.json())
+    .then ((json) => console.log (json));
+
