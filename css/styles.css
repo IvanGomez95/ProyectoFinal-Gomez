@@ -34,6 +34,12 @@ width: 70%;
 display:flex;
 }
 
+nav span{
+    font-size:large;
+    font-weight: 400;
+    color: black;
+    font-style:italic;
+}
 
 .div{
     margin: 10px;
@@ -62,18 +68,6 @@ main{
 }
 
 
-.carrito_vacio {
-    list-style-type: none;
-    text-decoration: none;
-    color: red;
-    font-size: 20px;
-}
-
-.carrito_vacio:hover{
-    transition: 0.9s;
-    color: black
-}
-
 .btn{
     margin-top: 8px;
     justify-self: center;
@@ -96,4 +90,50 @@ main{
 .animate__slideInUp{
     animation-duration: 1.5s;
     animation-delay: 0.2s;
+}
+
+
+.footer {
+    display: flex;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: silver;
+    text-align: center;
+}
+
+.footer p {
+    text-align: center;
+}
+  
+footer p{
+    font-size: larger;
+    font-weight: 400;
+    color: black;
+    font-style:italic;
+}
+
+.imagenes-footer a {
+    text-decoration: none;
+}
+  
+.text-flex {
+    color: white;
+}
+  
+  
+.nav-link {
+    color: black
+}
+
+.img-footer{
+    width: 33%
+}
+
+nav img {
+    width: 50px;
+}
+
+.animate__slideInUp{
+    animation-duration: 700ms;
 }

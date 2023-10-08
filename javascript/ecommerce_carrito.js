@@ -1,5 +1,4 @@
-let carrito = []
-
+let carrito = JSON.parse(localStorage.getItem('Carrito')) || [];
 
 function agregarCarrito(e){
 
@@ -12,7 +11,8 @@ function agregarCarrito(e){
     let precioProducto = padre.querySelector("span").innerText;
 
     let imgProducto = abuelo.querySelector("img").src;
-
+    
+//Condición que busca si el producto está en el carrito para que no se dupliquen los productos
     let productoExistente = carrito.find (item => item.nombre === nombreProducto);
 
     if (productoExistente){
@@ -26,7 +26,7 @@ function agregarCarrito(e){
         };
         carrito.push(producto);
     }
-
+//Condición que busca si el producto está en el carrito para que no se dupliquen los productos
     
 
     let carritoJSON = JSON.stringify (carrito);
@@ -42,6 +42,8 @@ function agregarCarrito(e){
     }).showToast();
 
     mostrarCarrito();
+    
+
 }
 
 function mostrarCarrito(){
@@ -68,12 +70,14 @@ function mostrarCarrito(){
     for( let btn of btnBorrar){
         btn.addEventListener("click" , borrarProducto );
     }
-    let total = calcularTotal();
-    let totalElement = document.getElementById ("resultado");
-    totalElement.textContent = `Total: $${total}`;
 
+    if (carrito.length > 0){   
+        let total = calcularTotal();
+        let totalElement = document.getElementById ("resultado");
+        totalElement.textContent = `Total: $${total}`;
+    }    
 }
-
+//Función que calcula costo total al borrar y agregar productos y al finalizar la compra
 function calcularTotal(){
     let total = 0;
     for (let producto of carrito){
@@ -81,6 +85,7 @@ function calcularTotal(){
     }
     return total;
 }
+//Función que calcula costo total al borrar y agregar productos y al finalizar la compra
 
 function borrarProducto(e){
 
@@ -109,18 +114,38 @@ function borrarProducto(e){
 
     let total = calcularTotal();
     let totalElement = document.getElementById ("resultado");
-    totalElement.textContent = `Total: $${total}`;
+    if (carrito.length > 0){
+        totalElement.textContent = `Total: $${total}`;
+    } else{
+        totalElement.textContent = ``;
+    }    
 
     localStorage.setItem ("Carrito", JSON.stringify(carrito));
+
+    if (carrito.length == 0){
+        localStorage.clear();
+    }
 }
 
-
+//Función que vacía carrito y LocalStorage y renderiza nuevamente carrito vacío
 function vaciarCarrito (){
     if (localStorage.length >= 1){
         let vaciar_carro = document.getElementById ("carrito")
-        vaciar_carro.innerHTML = `<p>Carrito Eliminado!</p>
-                              <a href = "index.html" class = "carrito_vacio">Volver a cargar productos</a>`;
+        carrito = [];
         localStorage.clear ();
+        let total = calcularTotal();
+        let totalElement = document.getElementById ("resultado");
+        totalElement.textContent = "";
+        mostrarCarrito();
+        Toastify({
+            text: "¡Carrito vaciado!",
+            className: "info",
+            gravity: "bottom",
+            style: {
+              background: "linear-gradient(to right, #FF0000, #8B0000)",
+            }
+        }).showToast();
+           
     } else{
         Swal.fire({
             icon: 'error',
@@ -130,6 +155,7 @@ function vaciarCarrito (){
 
     }
 }
+//Función que vacía carrito y LocalStorage y renderiza nuevamente carrito vacío
 
 
 
@@ -149,7 +175,8 @@ function finalizarCompra (){
         })
 
         let totalElement = document.getElementById ("resultado");
-        totalElement.style.display = "none";
+        totalElement.textContent = ``;
+        localStorage.clear();
     } else{
             Swal.fire({
             icon: 'error',
@@ -160,7 +187,7 @@ function finalizarCompra (){
 }
 
 
-
+//Eventos
 let btnCompra = document.querySelectorAll(".botonCompra");
 
 
@@ -176,8 +203,26 @@ vaciar_carrito.addEventListener ("click", vaciarCarrito)
 let finalizar_compra = document.getElementById ("finalizar-compra");
 
 finalizar_compra.addEventListener ("click", finalizarCompra);
+//Eventos
 
-fetch ("https://api.openweathermap.org/data/2.5/weather?q=Buenos Aires&units=metric&appid=882245ce1b449bb04e49a4c38a3cbfb9")
+mostrarCarrito();
+
+//Funcion que muestra la localización actual del usuario en Nav
+function mostrarUbicacion(localizacion){
+    let latitude =  localizacion.coords.latitude;
+    let longitude = localizacion.coords.longitude;
+    let apiKey = "882245ce1b449bb04e49a4c38a3cbfb9";
+
+    fetch (`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}&lang=es`)
     .then ((response) => response.json())
-    .then ((json) => console.log (json));
+    .then (data =>{
+        let locUsuario = document.getElementById("userLocation");
+   
+        let localizacionNav = document.createElement("div");
+        localizacionNav.innerHTML = `<span> Usted está comprando desde ${data.name}, ${data.sys.country}</span>`;
+        locUsuario.append(localizacionNav);
+    })
+}
 
+navigator.geolocation.getCurrentPosition (mostrarUbicacion);
+//Funcion que muestra la localización actual del usuario en Nav
