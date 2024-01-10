@@ -1,0 +1,94 @@
+body{
+  background-image: url(../src/media/notas\ purpura.jpg);
+  background-size: cover;
+  overflow-x: hidden;
+}
+
+.nav-hover :hover{
+  background-color: rgb(102, 43, 150);
+  color: white !important;
+  transition: 0.5s;
+}
+
+
+.parrafo{
+  font-weight: 700;
+
+}
+
+
+li{
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
+
+
+
+.transparente{
+  background-color: transparent;
+}
+
+
+
+.footer{
+  height: 300px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: large;
+}
+
+.LogoCoder{
+  height: 50%;
+  width: 50%;
+}
+
+.btnHover{
+  background-color: black;
+  color: white;
+}
+.btnHover:hover{
+  background-color: purple;
+  transition: all;
+  color: white;
+  transform: scale(1.2);
+  -webkit-transition: transform 0.3s ease-in-out;
+
+}
+a:visited{
+  visibility: hidden;
+}
+
+.link{
+  text-decoration: none;
+  text-shadow:
+    2px 2px 6px black,
+    4px 4px 6px black,
+    6px 6px 6px black;
+  color: black;
+  font-size: 40px;
+  font-weight: 100;
+  background-image: 
+      linear-gradient(90deg, violet, purple, violet);
+  background-size: 0% 3px;
+  background-repeat: no-repeat;
+  background-position: left 1.5em;
+  padding-block: .20em;
+  
+ transition:
+  color 500ms,
+  background-size 500ms;
+}
+
+.link:hover,
+.link:focus{
+  color: black;
+  background-size: 100% 3px;
+}
+
+.c-item{
+  height: 480px;
+}
+
+.c-img{
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.9);
+}
