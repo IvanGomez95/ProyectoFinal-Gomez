@@ -52,6 +52,18 @@ li{
   -webkit-transition: transform 0.3s ease-in-out;
 
 }
+
+.btnCounter{
+  background-color: black;
+  color: white;
+}
+
+.btnCounter:hover{
+  background-color: purple;
+  transition: all;
+  color: white;
+}
+
 a:visited{
   visibility: hidden;
 }
@@ -91,4 +103,24 @@ a:visited{
   height: 100%;
   object-fit: cover;
   filter: brightness(0.9);
+}
+
+.texto-justificado{
+  text-align: justify;
+}
+
+.form-control:focus{
+  border-color: #090114;
+  box-shadow: 0 0 0 0.2rem rgb(38, 3, 90);
+}
+
+.black_border{
+  border-radius: 10px;
+  border-color: #090114;
+}
+
+.orderColor{
+  background-color: rgb(129, 85, 134);
+  color: black;
+  font-weight: 600;
 }

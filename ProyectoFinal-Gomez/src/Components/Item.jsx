@@ -8,7 +8,7 @@ const Item = ({item}) => {
                     <img className="card-img-top" src= {item.image} alt= {item.title} />
                     <div className="card-body">
                         <p className="card-text">{item.title}</p>
-                        <a href="#" className="btn btnHover">Comprar</a>
+                        <button className="btn btnHover">Comprar</button>
                     </div>
                 </Link>
             </div>

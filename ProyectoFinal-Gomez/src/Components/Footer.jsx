@@ -6,11 +6,11 @@ import LogoCoder from "../media/logos_coderhouse.png"
 
 const Footer = () => {
     return(
-        <div className="container-fluid footer">
+        <div className="container-fluid footer mt-5">
             <div className="row">
                 <div className="col-md-3">
                     <BrandName />
-                    <p className="lead parrafo">Desde 1995</p>
+                    <p className="lead parrafo ms-5"><b>Desde 1995</b></p>
                 </div>
                 <div className="col-md-3 offset-6">
                     <a className="m-2" href="https://www.facebook.com/" target="blank"><img src={LogoFacebook} alt="Logo de Facebook" /></a>
